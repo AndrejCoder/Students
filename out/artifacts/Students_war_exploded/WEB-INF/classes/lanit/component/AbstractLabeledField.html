@@ -1,0 +1,22 @@
+<html xmlns:wicket>
+<wicket:panel>
+    <table>
+        <colgroup>
+            <col style="width:30%" />            
+            <col style="width:70%" /> 
+        </colgroup>  
+        <tr>
+            <td>
+                <label wicket:id="label">[Наименование]</label>:
+                <label wicket:id="redStar" style="color:red;"></label>                
+            </td>
+            <td>                
+                <wicket:child />
+            </td>            
+        </tr>       
+        <tr>
+            <td colspan="3"><div wicket:id="feedback">[Ошибка]</div></td>            
+        </tr>        
+    </table>                	
+</wicket:panel>
+</html>  

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Запросы связанные с действиями по логированию web-сервиса -->
+
+<mapper namespace="Group">
+    
+    <!--<parameterMap id="insertRequestParamMap" type="map">-->
+        <!--<parameter property="result" jdbcType="NUMERIC" javaType="Integer" mode="OUT" />-->
+        <!--<parameter property="request" jdbcType="NUMERIC" />-->
+        <!--<parameter property="msg" jdbcType="VARCHAR" mode="OUT" />-->
+        <!--&lt;!&ndash; <parameter property="commit" jdbcType="NUMERIC"/> &ndash;&gt;-->
+    <!--</parameterMap>-->
+
+    <!--<select id="insertRequest" parameterMap="insertRequestParamMap" statementType="CALLABLE">-->
+        <!--{? = call ws000pc_Integer_Service.Insert_Request( ?, ? )}-->
+    <!--</select>-->
+    <!---->
+    <!--<parameterMap id="insertAnswerParamMap" type="map">-->
+    	<!--<parameter property="result" jdbcType="NUMERIC" javaType="Integer" mode="OUT" />-->
+        <!--<parameter property="requestId" jdbcType="NUMERIC" />-->
+        <!--<parameter property="answer" jdbcType="NUMERIC" />-->
+        <!--<parameter property="msg" jdbcType="VARCHAR" mode="OUT" />-->
+        <!--&lt;!&ndash; <parameter property="commit" jdbcType="NUMERIC"/> &ndash;&gt;-->
+    <!--</parameterMap>-->
+
+    <!--<select id="insertAnswer" parameterMap="insertAnswerParamMap" statementType="CALLABLE">-->
+        <!--{? = call ws000pc_Integer_Service.Insert_Answer( ?, ?, ? )}-->
+    <!--</select>-->
+    <resultMap id="allGroupsResultMap" type="Group" >
+        <id property="id" column="id" />
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <select id="findAllGroups" resultMap="allGroupsResultMap">
+        SELECT g.id as id,
+               g.name as name
+          FROM groups g
+        <trim prefix="ORDER BY">
+            <if test="sort != null and sort.property != null" >
+              ${sort.property} <if test="sort.ascending != true">DESC</if>
+            </if>
+        </trim>
+    </select>
+
+    <insert id="insertGroup">
+        insert into groups (name)
+        values (#{group.name})
+    </insert>
+
+    <update id="updateGroup">
+        update groups set name = #{group.name}
+        where id = #{group.id}
+    </update>
+
+    <delete id="deleteGroup">
+        delete from groups where id = #{id}
+    </delete>
+    
+</mapper>

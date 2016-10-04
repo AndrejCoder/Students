@@ -1,0 +1,46 @@
+<html xmlns:wicket>
+<wicket:panel>
+<form class="modalForm" wicket:id="form">
+    <table>
+    <tr>
+        <td colspan="2"><span wicket:id="lastNameFeedbackLabel">[Ошибка	в фамилии]</span></td>
+    </tr>
+    <tr>
+    <td><label for="lastNameField" wicket:id="last-name-label">[Фамилия]</label></td>
+    <td><input wicket:id="lastNameField" id="lastNameField" /></td>
+    </tr>
+    <tr>
+        <td colspan="2"><span wicket:id="firstNameFeedbackLabel">[Ошибка	в имени]</span></td>
+    </tr>
+    <tr>
+        <td>
+    <label for="firstNameField" wicket:id="first-name-label">[Имя]</label></td>
+    <td><input wicket:id="firstNameField" id="firstNameField" /></td>
+     </tr>
+        <tr>
+            <td colspan="2"><span wicket:id="secondNameFeedbackLabel">[Ошибка	в отчестве]</span></td>
+        </tr>
+    <tr>
+    <td><label for="secondNameField" wicket:id="second-name-label">[Отчество]</label></td>
+    <td><input wicket:id="secondNameField" id="secondNameField" /></td>
+    </tr>
+        <tr>
+            <td colspan="2"><span wicket:id="birthdayFeedbackLabel">[Ошибка	в отчестве]</span></td>
+        </tr>
+        <tr>
+            <td colspan="2"><span wicket:id="birthdayField" id="birthdayField"></span></td>
+        </tr>
+    <tr>
+        <td><label wicket:id="formChoice-label">[Форма label]</label></td>
+        <td><select wicket:id="formChoice"><option></option></select></td>
+    </tr>
+    </table>
+
+
+    <!--<div wicket:id="feedback">[Feedback Panel]</div>-->
+
+    <a wicket:id="closeOK">OK</a><br/>
+    <a wicket:id="closeCancel">Cancel</a><br/>
+</form>
+</wicket:panel>
+</html>

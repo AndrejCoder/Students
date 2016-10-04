@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Запросы связанные с действиями по логированию web-сервиса -->
+
+<mapper namespace="Student">
+    
+    <!--<parameterMap id="insertRequestParamMap" type="map">-->
+        <!--<parameter property="result" jdbcType="NUMERIC" javaType="Integer" mode="OUT" />-->
+        <!--<parameter property="request" jdbcType="NUMERIC" />-->
+        <!--<parameter property="msg" jdbcType="VARCHAR" mode="OUT" />-->
+        <!--&lt;!&ndash; <parameter property="commit" jdbcType="NUMERIC"/> &ndash;&gt;-->
+    <!--</parameterMap>-->
+
+    <!--<select id="insertRequest" parameterMap="insertRequestParamMap" statementType="CALLABLE">-->
+        <!--{? = call ws000pc_Integer_Service.Insert_Request( ?, ? )}-->
+    <!--</select>-->
+    <!---->
+    <!--<parameterMap id="insertAnswerParamMap" type="map">-->
+    	<!--<parameter property="result" jdbcType="NUMERIC" javaType="Integer" mode="OUT" />-->
+        <!--<parameter property="requestId" jdbcType="NUMERIC" />-->
+        <!--<parameter property="answer" jdbcType="NUMERIC" />-->
+        <!--<parameter property="msg" jdbcType="VARCHAR" mode="OUT" />-->
+        <!--&lt;!&ndash; <parameter property="commit" jdbcType="NUMERIC"/> &ndash;&gt;-->
+    <!--</parameterMap>-->
+
+    <!--<select id="insertAnswer" parameterMap="insertAnswerParamMap" statementType="CALLABLE">-->
+        <!--{? = call ws000pc_Integer_Service.Insert_Answer( ?, ?, ? )}-->
+    <!--</select>-->
+    <resultMap id="allStudentsResultMap" type="Student" >
+        <id property="id" column="id" />
+        <result property="lastName" column="lastName"/>
+        <result property="firstName" column="firstName"/>
+        <result property="secondName" column="secondName"/>
+        <result property="birthday" column="birthday"/>
+        <result property="group.id" column="groupId"/>
+        <result property="group.name" column="groupName"/>
+    </resultMap>
+
+    <select id="findAllStudents" parameterType="hashMap" resultMap="allStudentsResultMap">
+        SELECT s.id as id,
+               s.last_name as lastName,
+               s.first_name as firstName,
+               s.second_name as secondName,
+               s.birthday,
+               s.group_id as groupId,
+               g.name as groupName
+          FROM student s, groups g
+         WHERE s.group_id = g.id
+        <if test="filters != null">
+            <foreach item="item" index="key" collection="filters.entrySet()" >
+                <if test="item != null">
+                  AND UPPER( ${key} ) LIKE '%' || UPPER(#{item, jdbcType=VARCHAR}) || '%'
+                </if>
+            </foreach>
+        </if>
+        <trim prefix="AND">
+            <if test="group_id != null">
+                g.id = #{group_id}
+            </if>
+        </trim>
+        <trim prefix="ORDER BY">
+            <if test="sort != null and sort.property != null" >
+              ${sort.property} <if test="sort.ascending != true">DESC</if>
+            </if>
+        </trim>
+    </select>
+
+    <insert id="insertStudent">
+        insert into student (last_name, first_name, second_name, group_id, birthday)
+        values (#{student.lastName}, #{student.firstName}, #{student.secondName}, #{student.group.id}, #{student.birthday})
+    </insert>
+
+    <update id="updateStudent">
+        update student set last_name = #{student.lastName}, first_name = #{student.firstName}, second_name = #{student.secondName}, group_id = #{student.group.id}, birthday = #{student.birthday}
+        where id = #{student.id}
+    </update>
+
+    <delete id="deleteStudent">
+        delete from student where id = #{id}
+    </delete>
+    
+</mapper>
